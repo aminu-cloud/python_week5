@@ -1,0 +1,49 @@
+# Base Class
+class Device:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+        self._is_on = False   # Encapsulated attribute (protected)
+
+    def power_on(self):
+        self._is_on = True
+        print(f"{self.brand} {self.model} is now ON.")
+
+    def power_off(self):
+        self._is_on = False
+        print(f"{self.brand} {self.model} is now OFF.")
+
+    def device_info(self):
+        return f"Device: {self.brand} {self.model}"
+
+
+# Child Class (Inheritance)
+class Smartphone(Device):
+    def __init__(self, brand, model, os, storage):
+        super().__init__(brand, model)   # Calls parent constructor
+        self.os = os
+        self.storage = storage
+
+    # Polymorphism: overriding device_info()
+    def device_info(self):
+        base = super().device_info()
+        return f"{base} | OS: {self.os} | Storage: {self.storage}GB"
+
+    def take_photo(self):
+        if self._is_on:
+            print("📸 Photo taken!")
+        else:
+            print("Cannot take photo — device is OFF.")
+
+
+# Creating Objects
+phone1 = Smartphone("Samsung", "Galaxy S23", "Android", 256)
+phone2 = Smartphone("Apple", "iPhone 15", "iOS", 512)
+
+# Using the objects
+print(phone1.device_info())
+phone1.power_on()
+phone1.take_photo()
+
+print("\n" + phone2.device_info())
+phone2.take_photo()   # Will fail because it's OFF
